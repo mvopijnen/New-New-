@@ -10,6 +10,8 @@ import RealStories from './components/RealStories';
 import ClosingCta from './components/ClosingCta';
 import Footer from './components/Footer';
 import ConversationAppModal from './components/ConversationAppModal';
+import UniqueDifferentiators from './components/UniqueDifferentiators';
+import MoodArtCreator from './components/MoodArtCreator';
 
 export default function App() {
   const [isGameOpen, setIsGameOpen] = useState(false);
@@ -52,6 +54,12 @@ export default function App() {
 
         {/* 7. Echte verhalen / Menselijke bevestiging */}
         <RealStories />
+
+        {/* 7.5 Differentiators: Wat Tussen Ons onderscheidt */}
+        <UniqueDifferentiators />
+
+        {/* 7.8 Sfeer & Vibe Creator */}
+        <MoodArtCreator onSelectVibe={() => handleStartSession('samen')} />
 
         {/* 8. Laatste merkstatement & Uitnodiging */}
         <ClosingCta onStartSession={() => handleStartSession('all')} />

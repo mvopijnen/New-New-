@@ -1,33 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, RefreshCw, Sparkles, Download } from 'lucide-react';
-
-const HERO_QUESTIONS = [
-  {
-    text: 'Wat dacht je over mij na onze eerste ontmoeting, maar heb je nooit verteld?',
-    context: 'Voor wie tegenover je zit',
-    tag: 'Samen',
-    tagColor: 'text-[#BD3A53] bg-[#BD3A53]/10',
-  },
-  {
-    text: 'Wanneer heb je voor het laatst iets gedaan waar je je stiekem een beetje voor schaamde?',
-    context: 'Voorbij het gepolijste verhaal',
-    tag: 'Eerlijk',
-    tagColor: 'text-[#0D9488] bg-[#0D9488]/10',
-  },
-  {
-    text: 'Welk advies geef je graag aan anderen, maar pas je zelf eigenlijk nooit toe?',
-    context: 'Met een glimlach',
-    tag: 'Speels',
-    tagColor: 'text-[#BD3A53] bg-[#BD3A53]/10',
-  },
-  {
-    text: 'Wat weet bijna niemand over de manier waarop jij naar jezelf kijkt?',
-    context: 'Als de stilte mag vallen',
-    tag: 'Verdiepen',
-    tagColor: 'text-[#7C3AED] bg-[#7C3AED]/10',
-  },
-];
+import { ArrowRight, RefreshCw, Download, Calendar } from 'lucide-react';
+import { ALL_QUESTIONS } from '../data/questionsData';
 
 interface HeroProps {
   onStartSession: () => void;
@@ -36,13 +10,58 @@ interface HeroProps {
 }
 
 export default function Hero({ onStartSession, onTryDirectly, onInstallPrompt }: HeroProps) {
-  const [questionIndex, setQuestionIndex] = useState(0);
+  // Compute deterministic daily question based on YYYY-MM-DD
+  const dailyQuestion = useMemo(() => {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    let hash = 0;
+    for (let i = 0; i < todayStr.length; i++) {
+      hash = (hash << 5) - hash + todayStr.charCodeAt(i);
+      hash |= 0;
+    }
+    const index = Math.abs(hash) % ALL_QUESTIONS.length;
+    return ALL_QUESTIONS[index];
+  }, []);
 
-  const nextHeroQuestion = () => {
-    setQuestionIndex((prev) => (prev + 1) % HERO_QUESTIONS.length);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showDaily, setShowDaily] = useState(true);
+
+  const previewQuestions = [
+    {
+      text: 'Wat dacht je over mij na onze eerste ontmoeting, maar heb je nooit verteld?',
+      context: 'Voor wie tegenover je zit',
+      tag: 'Samen',
+    },
+    {
+      text: 'Wanneer heb je voor het laatst iets gedaan waar je je stiekem een beetje voor schaamde?',
+      context: 'Voorbij het gepolijste verhaal',
+      tag: 'Eerlijk',
+    },
+    {
+      text: 'Welk advies geef je graag aan anderen, maar pas je zelf eigenlijk nooit toe?',
+      context: 'Met een glimlach',
+      tag: 'Speels',
+    },
+  ];
+
+  const currentQ = showDaily
+    ? {
+        text: dailyQuestion.text,
+        context: `Vraag van de dag · ${new Date().toLocaleDateString('nl-NL', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+        })}`,
+        tag: dailyQuestion.categoryLabel,
+      }
+    : previewQuestions[currentIndex % previewQuestions.length];
+
+  const handleNext = () => {
+    if (showDaily) {
+      setShowDaily(false);
+    } else {
+      setCurrentIndex((prev) => prev + 1);
+    }
   };
-
-  const currentQ = HERO_QUESTIONS[questionIndex];
 
   return (
     <section className="relative pt-36 pb-24 sm:pt-48 sm:pb-36 overflow-hidden bg-[#FAF5F0]">
@@ -96,30 +115,31 @@ export default function Hero({ onStartSession, onTryDirectly, onInstallPrompt }:
           </button>
         </div>
 
-        {/* Light Tactile Demo Card */}
+        {/* Light Tactile Demo Card with Vraag van de dag */}
         <div className="w-full max-w-xl mx-auto">
           <div className="relative group">
             {/* Soft backdrop glow */}
             <div className="absolute -inset-1 bg-gradient-to-r from-[#BD3A53]/15 to-[#F7D8D3]/80 rounded-3xl blur-md opacity-60" />
 
-            <div className="relative bg-[#FFFFFF] border border-[#EFE6DE] rounded-3xl p-8 sm:p-10 shadow-sm text-left">
+            <div className="relative bg-[#FFFFFF] border border-[#EFE6DE] rounded-3xl p-8 sm:p-10 shadow-sm text-left breathing-card">
               {/* Card top bar */}
               <div className="flex items-center justify-between text-xs text-[#6E625D] mb-6 pb-4 border-b border-[#EFE6DE]">
                 <div className="flex items-center gap-2.5">
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${currentQ.tagColor}`}>
-                    {currentQ.tag}
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold text-[#BD3A53] bg-[#BD3A53]/10 inline-flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    <span>{showDaily ? 'Vraag van de dag' : currentQ.tag}</span>
                   </span>
                   <span aria-hidden="true" className="text-[#EFE6DE]">·</span>
-                  <span className="text-[#201A18] font-medium">{currentQ.context}</span>
+                  <span className="text-[#201A18] font-medium capitalize">{currentQ.context}</span>
                 </div>
                 <button
-                  onClick={nextHeroQuestion}
+                  onClick={handleNext}
                   type="button"
                   className="inline-flex items-center gap-1.5 text-xs text-[#6E625D] hover:text-[#BD3A53] transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-[#FAF5F0]"
                   title="Andere vraag"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Volgende kaart</span>
+                  <span className="hidden sm:inline">{showDaily ? 'Bekijk preview' : 'Volgende kaart'}</span>
                 </button>
               </div>
 
@@ -127,7 +147,7 @@ export default function Hero({ onStartSession, onTryDirectly, onInstallPrompt }:
               <div className="min-h-[130px] sm:min-h-[150px] flex items-center justify-center py-2">
                 <AnimatePresence mode="wait">
                   <motion.blockquote
-                    key={questionIndex}
+                    key={showDaily ? 'daily' : currentIndex}
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}

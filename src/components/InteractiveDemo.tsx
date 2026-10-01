@@ -91,7 +91,7 @@ export default function InteractiveDemo() {
             <div className="absolute -inset-1 bg-gradient-to-r from-[#BD3A53]/15 to-[#F7D8D3]/80 rounded-3xl blur-md opacity-70" />
 
             <div
-              className={`relative bg-[#FFFFFF] border border-[#EFE6DE] rounded-3xl p-8 sm:p-12 shadow-sm transition-transform duration-500 ${
+              className={`relative bg-[#FFFFFF] border border-[#EFE6DE] rounded-3xl p-8 sm:p-12 shadow-sm transition-transform duration-500 breathing-card ${
                 tableOrientation ? 'rotate-180' : ''
               }`}
             >
