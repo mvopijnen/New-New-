@@ -1,0 +1,6 @@
+{
+  "name": "Tussen Ons — Het gesprek tussen twee mensen",
+  "description": "Een digitale ervaring die twee mensen helpt om even uit de automatische piloot te komen en een gesprek te voeren dat grappiger, persoonlijker of diepgaander is.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
