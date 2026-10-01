@@ -21,14 +21,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1917] selection:bg-[#D96B43]/20 selection:text-[#1C1917] paper-texture flex flex-col">
+    <div className="min-h-screen bg-[#FAF5F0] text-[#201A18] selection:bg-[#BD3A53]/25 selection:text-[#201A18] paper-texture flex flex-col">
       {/* Top Navigation */}
       <Navigation onStartSession={() => handleStartSession('all')} />
 
       {/* Main Narrative Journey */}
       <main className="flex-1">
         {/* 1. Hero: Eerste emotionele trigger */}
-        <Hero onTryDirectly={() => handleStartSession('samen')} />
+        <Hero
+          onStartSession={() => handleStartSession('all')}
+          onTryDirectly={() => handleStartSession('samen')}
+        />
 
         {/* 2. Interactieve Demo: Product onmiddellijk ervaren */}
         <InteractiveDemo />

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ALL_QUESTIONS, CATEGORIES } from '../data/questionsData';
 import { CategoryId, Question } from '../types';
-import { X, RotateCcw, ArrowRight, ArrowLeft, Moon, Sun, Sparkles, Eye, EyeOff } from 'lucide-react';
+import { X, RotateCcw, ArrowRight, ArrowLeft, Moon, Sun, Eye, EyeOff } from 'lucide-react';
 
 interface ConversationAppModalProps {
   initialCategoryId?: string;
@@ -21,7 +21,7 @@ export default function ConversationAppModal({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showFollowUp, setShowFollowUp] = useState(false);
   const [tableMode, setTableMode] = useState(false);
-  const [dimMode, setDimMode] = useState(false); // Darkens screen to candle ambient for speaking
+  const [dimMode, setDimMode] = useState(false);
 
   if (!isOpen) return null;
 
@@ -47,32 +47,33 @@ export default function ConversationAppModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#1C1917]/70 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-[#201A18]/60 backdrop-blur-md overflow-y-auto"
     >
       <div
-        className={`w-full max-w-2xl min-h-[580px] rounded-3xl p-6 sm:p-10 flex flex-col justify-between shadow-2xl transition-colors duration-500 relative border ${
+        className={`w-full max-w-2xl min-h-[600px] rounded-3xl p-6 sm:p-12 flex flex-col justify-between shadow-xl transition-all duration-500 relative border ${
           dimMode
-            ? 'bg-[#141210] border-[#292524] text-[#FAF7F2]'
-            : 'bg-[#FAF7F2] border-[#E6DDD0] text-[#1C1917]'
+            ? 'bg-[#161311] border-white/10 text-white'
+            : 'bg-[#FFFFFF] border-[#EFE6DE] text-[#201A18]'
         }`}
       >
         {/* Top Control Bar */}
-        <div className="flex items-center justify-between pb-4 border-b border-black/10">
+        <div className={`flex items-center justify-between pb-6 border-b ${dimMode ? 'border-white/10' : 'border-[#EFE6DE]'}`}>
           <div className="flex items-center gap-3">
-            <span className="font-editorial text-lg sm:text-xl font-medium">Tussen Ons</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#BD3A53]" />
+            <span className="font-editorial text-xl font-medium tracking-tight">Tussen Ons</span>
             <span aria-hidden="true" className="opacity-40">·</span>
-            <span className="text-xs uppercase tracking-wider opacity-70">
+            <span className="text-xs uppercase tracking-widest font-mono opacity-70">
               {currentQ.categoryLabel}
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Candle/Dim mode for focus on speaking */}
+          <div className="flex items-center gap-3">
+            {/* Candle/Dim mode */}
             <button
               onClick={() => setDimMode(!dimMode)}
               type="button"
-              className={`p-2 rounded-full transition-colors cursor-pointer ${
-                dimMode ? 'bg-[#292524] text-[#E07A5F]' : 'hover:bg-[#F2ECE1] text-[#78716C]'
+              className={`p-2.5 rounded-full transition-colors cursor-pointer ${
+                dimMode ? 'bg-white/10 text-[#BD3A53]' : 'bg-[#FAF5F0] hover:bg-[#EFE6DE] text-[#201A18]'
               }`}
               title={dimMode ? 'Scherm helder maken' : 'Focus / Kaarslicht modus'}
             >
@@ -83,8 +84,8 @@ export default function ConversationAppModal({
             <button
               onClick={() => setTableMode(!tableMode)}
               type="button"
-              className={`p-2 rounded-full transition-colors cursor-pointer ${
-                tableMode ? 'bg-[#D96B43] text-white' : 'hover:bg-[#F2ECE1] text-[#78716C]'
+              className={`p-2.5 rounded-full transition-colors cursor-pointer ${
+                tableMode ? 'bg-[#BD3A53] text-white' : 'bg-[#FAF5F0] hover:bg-[#EFE6DE] text-[#201A18]'
               }`}
               title="Draai voor de overkant van de tafel"
             >
@@ -95,17 +96,17 @@ export default function ConversationAppModal({
             <button
               onClick={onClose}
               type="button"
-              className="p-2 rounded-full hover:bg-black/5 text-[#78716C] hover:text-[#1C1917] transition-colors cursor-pointer"
+              className={`p-2.5 rounded-full transition-colors cursor-pointer ${dimMode ? 'bg-white/10 text-white' : 'bg-[#FAF5F0] hover:bg-[#EFE6DE] text-[#201A18]'}`}
               aria-label="Sluit gesprek"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* Deck Category Selector Tabs */}
         {!dimMode && (
-          <div className="flex items-center gap-1.5 overflow-x-auto py-3 no-scrollbar border-b border-black/5">
+          <div className="flex items-center gap-2 overflow-x-auto py-4 no-scrollbar border-b border-[#EFE6DE]">
             <button
               onClick={() => {
                 setSelectedCategory('all');
@@ -113,10 +114,10 @@ export default function ConversationAppModal({
                 setShowFollowUp(false);
               }}
               type="button"
-              className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                 selectedCategory === 'all'
-                  ? 'bg-[#1C1917] text-white'
-                  : 'bg-white/60 text-[#57534E] hover:bg-white'
+                  ? 'bg-[#BD3A53] text-white'
+                  : 'bg-[#FAF5F0] text-[#6E625D] hover:bg-[#EFE6DE] hover:text-[#201A18]'
               }`}
             >
               Alles door elkaar
@@ -130,10 +131,10 @@ export default function ConversationAppModal({
                   setShowFollowUp(false);
                 }}
                 type="button"
-                className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                   selectedCategory === cat.id
-                    ? 'bg-[#1C1917] text-white'
-                    : 'bg-white/60 text-[#57534E] hover:bg-white'
+                    ? 'bg-[#BD3A53] text-white'
+                    : 'bg-[#FAF5F0] text-[#6E625D] hover:bg-[#EFE6DE] hover:text-[#201A18]'
                 }`}
               >
                 {cat.title}
@@ -144,12 +145,12 @@ export default function ConversationAppModal({
 
         {/* Question Stage */}
         <div
-          className={`my-auto py-8 sm:py-12 transition-transform duration-500 ${
+          className={`my-auto py-10 sm:py-16 transition-transform duration-500 ${
             tableMode ? 'rotate-180' : ''
           }`}
         >
-          <div className="flex items-center gap-2 mb-4 text-xs opacity-60">
-            <span className="w-2 h-2 rounded-full bg-[#D96B43]" />
+          <div className="flex items-center gap-2.5 mb-6 text-xs opacity-70 font-mono">
+            <span className="w-2 h-2 rounded-full bg-[#BD3A53]" />
             <span>Vraag {activeIndex + 1} van {currentDeck.length}</span>
             {currentQ.moodTag && (
               <>
@@ -167,7 +168,7 @@ export default function ConversationAppModal({
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.25 }}
             >
-              <h2 className="font-editorial text-2xl sm:text-4xl md:text-[38px] font-normal leading-snug sm:leading-tight mb-6">
+              <h2 className="font-editorial text-3xl sm:text-4xl md:text-[42px] font-normal leading-snug sm:leading-tight mb-8">
                 “{currentQ.text}”
               </h2>
 
@@ -175,13 +176,13 @@ export default function ConversationAppModal({
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
-                  className={`p-4 rounded-2xl border text-sm sm:text-base font-editorial italic ${
+                  className={`p-5 rounded-2xl border text-base font-editorial italic ${
                     dimMode
-                      ? 'bg-[#1F1B18] border-[#3E3835] text-[#E29578]'
-                      : 'bg-[#FFFFFF] border-[#E6DDD0] text-[#8C3D28]'
+                      ? 'bg-[#161311] border-white/10 text-[#F7D8D3]'
+                      : 'bg-[#FAF5F0] border-[#EFE6DE] text-[#BD3A53]'
                   }`}
                 >
-                  <span className="font-sans not-italic text-xs font-semibold uppercase tracking-wider block mb-1 opacity-70">
+                  <span className="font-sans not-italic text-xs font-semibold uppercase tracking-widest text-[#6E625D] block mb-2 font-mono">
                     Als het antwoord is gegeven, vraag door:
                   </span>
                   “{currentQ.followUp}”
@@ -192,16 +193,16 @@ export default function ConversationAppModal({
         </div>
 
         {/* Bottom Interactive Controls */}
-        <div className="pt-4 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+        <div className={`pt-6 border-t ${dimMode ? 'border-white/10' : 'border-[#EFE6DE]'} flex flex-col sm:flex-row items-center justify-between gap-5`}>
+          <div className="flex items-center gap-4 w-full sm:w-auto">
             {currentQ.followUp && (
               <button
                 onClick={() => setShowFollowUp(!showFollowUp)}
                 type="button"
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium border transition-colors cursor-pointer ${
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium border transition-colors cursor-pointer ${
                   dimMode
-                    ? 'border-[#3E3835] text-[#A8A29E] hover:text-white'
-                    : 'border-[#E6DDD0] text-[#78716C] hover:text-[#1C1917]'
+                    ? 'border-white/20 text-[#A8A29E] hover:text-white'
+                    : 'border-[#EFE6DE] text-[#6E625D] hover:text-[#201A18]'
                 }`}
               >
                 {showFollowUp ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -211,20 +212,20 @@ export default function ConversationAppModal({
             <button
               onClick={() => setDimMode(!dimMode)}
               type="button"
-              className="text-xs opacity-70 hover:opacity-100 transition-opacity cursor-pointer hidden sm:inline"
+              className={`text-xs transition-colors cursor-pointer hidden sm:inline ${dimMode ? 'text-[#A8A29E] hover:text-white' : 'text-[#6E625D] hover:text-[#201A18]'}`}
             >
               {dimMode ? 'Scherm aanzetten' : 'Leg neer om te luisteren'}
             </button>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <button
               onClick={handlePrev}
               type="button"
-              className={`p-3 rounded-full border transition-colors cursor-pointer ${
+              className={`p-3.5 rounded-full border transition-colors cursor-pointer ${
                 dimMode
-                  ? 'border-[#3E3835] text-white hover:bg-white/10'
-                  : 'border-[#E6DDD0] bg-white text-[#1C1917] hover:bg-[#F2ECE1]'
+                  ? 'border-white/20 text-white hover:bg-white/10'
+                  : 'border-[#EFE6DE] bg-[#FAF5F0] text-[#201A18] hover:bg-[#EFE6DE]'
               }`}
               aria-label="Vorige vraag"
             >
@@ -234,7 +235,7 @@ export default function ConversationAppModal({
             <button
               onClick={handleNext}
               type="button"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D96B43] hover:bg-[#C2542C] text-white text-sm font-medium transition-colors shadow-sm cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#BD3A53] hover:bg-[#A51D33] text-white text-sm font-semibold transition-all shadow-sm cursor-pointer"
             >
               <span>Volgende vraag</span>
               <ArrowRight className="w-4 h-4" />

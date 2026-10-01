@@ -2,13 +2,13 @@ import { TESTIMONIAL_MOMENTS } from '../data/questionsData';
 
 export default function RealStories() {
   return (
-    <section className="py-24 sm:py-32 bg-[#F5EFEB] border-t border-[#E6DDD0]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="max-w-xl mb-16">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#8C3D28] block mb-3">
+    <section className="py-28 sm:py-36 bg-[#FAF5F0] relative overflow-hidden border-t border-[#EFE6DE]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <div className="max-w-2xl mb-20">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#BD3A53] block mb-4">
             In het echt
           </span>
-          <h2 className="font-editorial text-3xl sm:text-5xl text-[#1C1917] font-normal leading-[1.15] tracking-tight">
+          <h2 className="font-editorial text-4xl sm:text-6xl text-[#201A18] font-normal leading-[1.1] tracking-tight">
             Wat er gebeurt wanneer het scherm even weggaat.
           </h2>
         </div>
@@ -17,15 +17,15 @@ export default function RealStories() {
           {TESTIMONIAL_MOMENTS.map((item, index) => (
             <div
               key={index}
-              className="bg-[#FFFFFF] border border-[#E6DDD0] rounded-3xl p-8 flex flex-col justify-between shadow-2xs"
+              className="bg-[#FFFFFF] border border-[#EFE6DE] rounded-3xl p-8 sm:p-10 flex flex-col justify-between shadow-md"
             >
-              <blockquote className="font-editorial text-lg sm:text-xl text-[#1C1917] italic leading-relaxed mb-8">
+              <blockquote className="font-editorial text-xl sm:text-2xl text-[#201A18] italic leading-relaxed mb-10">
                 “{item.quote}”
               </blockquote>
 
-              <div className="pt-4 border-t border-[#F2ECE1]">
-                <div className="font-medium text-sm text-[#1C1917]">{item.author}</div>
-                <div className="text-xs text-[#78716C] mt-0.5">{item.setting}</div>
+              <div className="pt-6 border-t border-[#EFE6DE]">
+                <div className="font-semibold text-base text-[#201A18]">{item.author}</div>
+                <div className="text-xs font-mono text-[#6E625D] mt-1">{item.setting}</div>
               </div>
             </div>
           ))}

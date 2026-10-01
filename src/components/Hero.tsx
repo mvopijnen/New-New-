@@ -1,43 +1,41 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, RefreshCw, Sparkles } from 'lucide-react';
+import { ArrowRight, RefreshCw, Sparkles, Download } from 'lucide-react';
 
 const HERO_QUESTIONS = [
   {
     text: 'Wat dacht je over mij na onze eerste ontmoeting, maar heb je nooit verteld?',
     context: 'Voor wie tegenover je zit',
     tag: 'Samen',
-    color: 'text-[#E06D46]',
-    bgTag: 'bg-[#E06D46]/10 text-[#C2542C]',
+    tagColor: 'text-[#BD3A53] bg-[#BD3A53]/10',
   },
   {
     text: 'Wanneer heb je voor het laatst iets gedaan waar je je stiekem een beetje voor schaamde?',
     context: 'Voorbij het gepolijste verhaal',
     tag: 'Eerlijk',
-    color: 'text-[#0D9488]',
-    bgTag: 'bg-[#0D9488]/10 text-[#0F766E]',
+    tagColor: 'text-[#0D9488] bg-[#0D9488]/10',
   },
   {
     text: 'Welk advies geef je graag aan anderen, maar pas je zelf eigenlijk nooit toe?',
     context: 'Met een glimlach',
     tag: 'Speels',
-    color: 'text-[#F59E0B]',
-    bgTag: 'bg-[#F59E0B]/15 text-[#B45309]',
+    tagColor: 'text-[#BD3A53] bg-[#BD3A53]/10',
   },
   {
     text: 'Wat weet bijna niemand over de manier waarop jij naar jezelf kijkt?',
     context: 'Als de stilte mag vallen',
     tag: 'Verdiepen',
-    color: 'text-[#7C3AED]',
-    bgTag: 'bg-[#7C3AED]/10 text-[#6D28D9]',
+    tagColor: 'text-[#7C3AED] bg-[#7C3AED]/10',
   },
 ];
 
 interface HeroProps {
-  onTryDirectly: () => void;
+  onStartSession: () => void;
+  onTryDirectly?: () => void;
+  onInstallPrompt?: () => void;
 }
 
-export default function Hero({ onTryDirectly }: HeroProps) {
+export default function Hero({ onStartSession, onTryDirectly, onInstallPrompt }: HeroProps) {
   const [questionIndex, setQuestionIndex] = useState(0);
 
   const nextHeroQuestion = () => {
@@ -47,56 +45,81 @@ export default function Hero({ onTryDirectly }: HeroProps) {
   const currentQ = HERO_QUESTIONS[questionIndex];
 
   return (
-    <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
-      {/* Rich ambient glowing blobs for wow color impact */}
-      <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full gradient-blob-1 blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-1/3 right-5 w-[400px] h-[400px] rounded-full gradient-blob-2 blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
+    <section className="relative pt-36 pb-24 sm:pt-48 sm:pb-36 overflow-hidden bg-[#FAF5F0]">
+      {/* Soft Rose Ambient Glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[550px] rounded-full soft-rose-glow blur-[100px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center text-center">
-        {/* Subtle, unboxed pre-header */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/80 border border-[#E6DDD0] text-xs sm:text-sm font-medium text-[#1C1917] tracking-wide mb-6 shadow-2xs">
-          <span className="w-2 h-2 rounded-full bg-[#E06D46] animate-pulse" />
-          <span>Tussen Ons</span>
-          <span aria-hidden="true" className="text-[#C8BCAC]">·</span>
-          <span className="text-[#57534E]">Het echte product is het gesprek</span>
+      <div className="max-w-4xl mx-auto px-6 sm:px-10 relative z-10 flex flex-col items-center text-center">
+        {/* Subtle pre-header */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#EFE6DE] text-xs font-medium text-[#BD3A53] tracking-wide mb-8 shadow-2xs">
+          <span className="w-2 h-2 rounded-full bg-[#BD3A53]" />
+          <span>Tussen Ons · Het gesprek tussen twee mensen</span>
         </div>
 
-        {/* Primary provocation headline */}
-        <h1 className="font-editorial text-3xl sm:text-5xl md:text-6xl text-[#1C1917] font-normal leading-[1.15] tracking-tight max-w-3xl mb-10 text-balance">
-          Wanneer heb jij dit eigenlijk voor het laatst gevraagd?
+        {/* Main headline */}
+        <h1 className="font-editorial text-4xl sm:text-6xl md:text-7xl text-[#201A18] font-normal leading-[1.12] tracking-tight max-w-3xl mb-6 text-balance">
+          De juiste vraag.<br />
+          <span className="italic text-[#BD3A53]">Op het juiste moment.</span>
         </h1>
 
-        {/* The tactile physical question card */}
-        <div className="w-full max-w-xl mx-auto mb-10">
-          <div className="relative group">
-            {/* Background shadow layer with rich warm tint */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#E06D46]/20 to-[#F59E0B]/20 rounded-2xl sm:rounded-3xl translate-y-3 translate-x-1.5 transition-transform group-hover:translate-y-4 blur-xs" />
+        {/* Subheadline */}
+        <p className="text-xl sm:text-2xl text-[#201A18] font-editorial italic max-w-2xl mb-6">
+          Voor gesprekken die anders misschien nooit waren begonnen.
+        </p>
 
-            {/* The main card */}
-            <div className="relative bg-[#FFFFFF] border-2 border-[#E6DDD0] rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-md transition-all duration-300">
-              {/* Card header metadata */}
-              <div className="flex items-center justify-between text-xs text-[#78716C] mb-6 pb-4 border-b border-[#F2ECE1]">
+        {/* Supporting text */}
+        <p className="text-base sm:text-lg text-[#6E625D] max-w-xl leading-relaxed mb-10">
+          Kies wie er tegenover je zit, waar jullie zin in hebben en hoeveel tijd jullie hebben. Tussen Ons opent het gesprek en beweegt mee met het moment.
+        </p>
+
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 mb-16">
+          <button
+            onClick={onStartSession}
+            type="button"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#BD3A53] text-white text-sm font-semibold hover:bg-[#A51D33] hover:scale-102 transition-all shadow-sm cursor-pointer"
+          >
+            <span>Begin samen</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => {
+              if (onTryDirectly) onTryDirectly();
+              else if (onInstallPrompt) onInstallPrompt();
+              else onStartSession();
+            }}
+            type="button"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-[#EFE6DE] bg-white text-[#201A18] text-sm font-medium hover:border-[#BD3A53] hover:text-[#BD3A53] transition-all cursor-pointer shadow-2xs"
+          >
+            <Download className="w-4 h-4 text-[#BD3A53]" />
+            <span>Zet Tussen Ons op je beginscherm</span>
+          </button>
+        </div>
+
+        {/* Light Tactile Demo Card */}
+        <div className="w-full max-w-xl mx-auto">
+          <div className="relative group">
+            {/* Soft backdrop glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#BD3A53]/15 to-[#F7D8D3]/80 rounded-3xl blur-md opacity-60" />
+
+            <div className="relative bg-[#FFFFFF] border border-[#EFE6DE] rounded-3xl p-8 sm:p-10 shadow-sm text-left">
+              {/* Card top bar */}
+              <div className="flex items-center justify-between text-xs text-[#6E625D] mb-6 pb-4 border-b border-[#EFE6DE]">
                 <div className="flex items-center gap-2.5">
-                  <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${currentQ.bgTag}`}>
+                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${currentQ.tagColor}`}>
                     {currentQ.tag}
                   </span>
-                  <span aria-hidden="true" className="text-[#C8BCAC]">·</span>
-                  <span className="font-medium text-[#57534E]">{currentQ.context}</span>
+                  <span aria-hidden="true" className="text-[#EFE6DE]">·</span>
+                  <span className="text-[#201A18] font-medium">{currentQ.context}</span>
                 </div>
                 <button
                   onClick={nextHeroQuestion}
                   type="button"
-                  className="inline-flex items-center gap-1.5 text-xs text-[#57534E] hover:text-[#E06D46] transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-[#FAF7F2]"
+                  className="inline-flex items-center gap-1.5 text-xs text-[#6E625D] hover:text-[#BD3A53] transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-[#FAF5F0]"
                   title="Andere vraag"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Andere vraag</span>
+                  <span className="hidden sm:inline">Volgende kaart</span>
                 </button>
               </div>
 
@@ -105,51 +128,26 @@ export default function Hero({ onTryDirectly }: HeroProps) {
                 <AnimatePresence mode="wait">
                   <motion.blockquote
                     key={questionIndex}
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
+                    exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="font-editorial text-2xl sm:text-3xl md:text-4xl text-[#1C1917] leading-snug font-normal italic px-2"
+                    className="font-editorial text-2xl sm:text-3xl text-[#201A18] leading-snug font-normal italic text-center"
                   >
                     “{currentQ.text}”
                   </motion.blockquote>
                 </AnimatePresence>
               </div>
 
-              {/* Bottom whisper on the card */}
-              <div className="mt-6 pt-4 border-t border-[#F2ECE1] flex items-center justify-between text-xs text-[#78716C]">
-                <span className="font-medium text-[#E06D46]">Tussen Ons Vraagkaart</span>
-                <span>Leg de telefoon neer</span>
+              {/* Card footer */}
+              <div className="mt-6 pt-4 border-t border-[#EFE6DE] flex items-center justify-between text-xs text-[#6E625D]">
+                <span className="text-[#BD3A53] font-semibold">Tussen Ons Vraagkaart</span>
+                <span>Leg de telefoon op tafel</span>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Narrative direction copy */}
-        <p className="text-base sm:text-lg text-[#57534E] max-w-xl leading-relaxed mb-8">
-          Geen swipe. Geen score. Gewoon één vraag en kijken waar jullie uitkomen.
-        </p>
-
-        {/* Action controls */}
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          <a
-            href="#ervaren"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full bg-[#1C1917] text-white text-sm font-medium hover:bg-[#E06D46] transition-all shadow-md cursor-pointer"
-          >
-            <span>Probeer direct een vraag</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
-          <button
-            onClick={onTryDirectly}
-            type="button"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full border-2 border-[#E6DDD0] bg-white text-[#1C1917] text-sm font-medium hover:border-[#E06D46] hover:text-[#E06D46] transition-all shadow-2xs cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4 text-[#E06D46]" />
-            <span>Open live tafelmodus</span>
-          </button>
         </div>
       </div>
     </section>
   );
 }
-

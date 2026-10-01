@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
 
 interface NavigationProps {
   onStartSession: () => void;
@@ -6,11 +7,10 @@ interface NavigationProps {
 
 export default function Navigation({ onStartSession }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 24);
+      setIsScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -20,124 +20,60 @@ export default function Navigation({ onStartSession }: NavigationProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#E6DDD0]/70 py-3 shadow-xs'
-          : 'bg-transparent py-5'
+          ? 'bg-[#FAF5F0]/95 backdrop-blur-md border-b border-[#EFE6DE] py-3.5 shadow-2xs'
+          : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Zone 1: Single element Brand Wordmark */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between">
+        {/* Brand Mark */}
         <a
           href="#"
-          className="font-editorial text-2xl sm:text-3xl font-medium tracking-tight text-[#1C1917] hover:text-[#D96B43] transition-colors"
+          className="group flex items-center gap-2.5 text-[#201A18] focus:outline-none"
         >
-          Tussen Ons
+          <span className="w-2.5 h-2.5 rounded-full bg-[#BD3A53] shadow-[0_0_8px_rgba(189,58,83,0.4)] transition-transform group-hover:scale-125" />
+          <span className="font-editorial text-2xl tracking-tight text-[#201A18] font-medium">
+            Tussen Ons
+          </span>
         </a>
 
-        {/* Zone 2: Clean text navigation links (desktop) */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#57534E]">
+        {/* Navigation links */}
+        <nav className="hidden lg:flex items-center gap-9 text-sm font-medium text-[#6E625D]">
           <a
             href="#ervaren"
-            className="hover:text-[#1C1917] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#D96B43] hover:after:w-full after:transition-all"
+            className="hover:text-[#201A18] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#BD3A53] hover:after:w-full after:transition-all"
           >
             Probeer een vraag
           </a>
           <a
             href="#werelden"
-            className="hover:text-[#1C1917] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#D96B43] hover:after:w-full after:transition-all"
+            className="hover:text-[#201A18] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#BD3A53] hover:after:w-full after:transition-all"
           >
             De werelden
           </a>
           <a
             href="#situaties"
-            className="hover:text-[#1C1917] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#D96B43] hover:after:w-full after:transition-all"
+            className="hover:text-[#201A18] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#BD3A53] hover:after:w-full after:transition-all"
           >
             Wanneer
           </a>
           <a
             href="#het-idee"
-            className="hover:text-[#1C1917] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#D96B43] hover:after:w-full after:transition-all"
+            className="hover:text-[#201A18] transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#BD3A53] hover:after:w-full after:transition-all"
           >
             Het idee
           </a>
         </nav>
 
-        {/* Zone 3: Single primary action */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onStartSession}
-            type="button"
-            className="px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium text-white bg-[#1C1917] rounded-full hover:bg-[#D96B43] transition-colors whitespace-nowrap shadow-xs cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D96B43]"
-          >
-            Start een gesprek
-          </button>
-
-          {/* Mobile hamburger toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            type="button"
-            aria-label="Menu openen"
-            aria-expanded={mobileMenuOpen}
-            className="md:hidden p-2 text-[#1C1917] rounded-lg hover:bg-[#F2ECE1] transition-colors cursor-pointer"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
-        </div>
+        {/* Primary Action Button */}
+        <button
+          onClick={onStartSession}
+          type="button"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#BD3A53] hover:bg-[#A51D33] text-white text-xs sm:text-sm font-medium transition-all shadow-sm cursor-pointer"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Begin samen</span>
+        </button>
       </div>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#FAF7F2] border-b border-[#E6DDD0] px-6 py-5 flex flex-col gap-4 text-base font-medium shadow-md">
-          <a
-            href="#ervaren"
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-[#1C1917] py-2 border-b border-[#F2ECE1]"
-          >
-            Probeer een vraag
-          </a>
-          <a
-            href="#werelden"
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-[#1C1917] py-2 border-b border-[#F2ECE1]"
-          >
-            De werelden
-          </a>
-          <a
-            href="#situaties"
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-[#1C1917] py-2 border-b border-[#F2ECE1]"
-          >
-            Wanneer
-          </a>
-          <a
-            href="#het-idee"
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-[#1C1917] py-2"
-          >
-            Het idee
-          </a>
-        </div>
-      )}
     </header>
   );
 }
